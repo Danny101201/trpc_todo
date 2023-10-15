@@ -1,6 +1,6 @@
 {
   "name": "todolist",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "build": "next build",
@@ -42,6 +42,7 @@
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.5.1",
     "prisma": "^5.1.1",
+    "standard-version": "^9.5.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
   },
