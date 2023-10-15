@@ -18,8 +18,8 @@ export default function Home() {
     onError: (error) => {
       toast.error(error.message)
     },
-    onSettled: () => {
-      apiUtils.todo.getTodos.invalidate()
+    onSettled: async () => {
+      await apiUtils.todo.getTodos.invalidate()
     }
   })
   const { mutateAsync: toggleTodo } = api.todo.toggleTodo.useMutation({
@@ -29,8 +29,8 @@ export default function Home() {
     onError: (error) => {
       toast.error(error.message)
     },
-    onSettled: () => {
-      apiUtils.todo.getTodos.invalidate()
+    onSettled: async () => {
+      await apiUtils.todo.getTodos.invalidate()
     }
   })
   const { mutateAsync: deleteTodo } = api.todo.deleteToto.useMutation({
@@ -40,8 +40,8 @@ export default function Home() {
     onError: (error) => {
       toast.error(error.message)
     },
-    onSettled: () => {
-      apiUtils.todo.getTodos.invalidate()
+    onSettled: async () => {
+      await apiUtils.todo.getTodos.invalidate()
     }
   })
 
@@ -79,7 +79,7 @@ export default function Home() {
             </div>
           </div>
           <ul className=" overflow-y-scroll h-[20rem] mt-[2rem] flex flex-col gap-[1rem] px-5">
-            {todo && todo.map(todo => (
+            {todo?.map(todo => (
               <li key={todo.id} className="bg-white rounded-md shadow-md flex items-center justify-between p-[1rem] gap-[1rem]">
                 <div className="flex items-center mr-4 gap-4">
                   <input

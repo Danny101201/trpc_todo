@@ -1,6 +1,6 @@
 {
   "name": "todolist",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "build": "next build",
@@ -8,7 +8,8 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "release":"standard-version"
   },
   "dependencies": {
     "@prisma/client": "^5.1.1",
@@ -42,7 +43,6 @@
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.5.1",
     "prisma": "^5.1.1",
-    "standard-version": "^9.5.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6"
   },
