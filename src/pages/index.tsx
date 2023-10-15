@@ -1,3 +1,4 @@
+import { Todo } from "@prisma/client";
 import { ChangeEvent, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { Spinner } from "~/components/Spinner";
@@ -11,6 +12,7 @@ export default function Home() {
 
   const apiUtils = api.useContext()
   const { data: todo, isLoading } = api.todo.getTodos.useQuery({ sortWithComplete: isDone })
+
   const { mutateAsync: createTodo } = api.todo.createTodo.useMutation({
     onSuccess: (res) => {
       setInputValue('')
@@ -24,10 +26,24 @@ export default function Home() {
     }
   })
   const { mutateAsync: toggleTodo } = api.todo.toggleTodo.useMutation({
+    onMutate: async ({ id, complete }) => {
+      await apiUtils.todo.getTodos.cancel()
+      const preViousTodo = apiUtils.todo.getTodos.getData({ sortWithComplete: isDone })
+
+      const targetIndex = preViousTodo?.findIndex(todo => todo.id === id)
+      apiUtils.todo.getTodos.setData({ sortWithComplete: isDone }, (oldTodos) => {
+        return oldTodos?.map((todo, index) => {
+          if (index == targetIndex) return { ...todo, complete }
+          return todo
+        })
+      })
+      return { preViousTodo }
+    },
     onSuccess: (res) => {
       toast.success(res.message)
     },
-    onError: (error) => {
+    onError: (error, _newTod, context) => {
+      apiUtils.todo.getTodos.setData(undefined, context?.preViousTodo)
       toast.error(error.message)
     },
     onSettled: async () => {
@@ -35,10 +51,19 @@ export default function Home() {
     }
   })
   const { mutateAsync: deleteTodo } = api.todo.deleteToto.useMutation({
+    onMutate: async ({ id }) => {
+      await apiUtils.todo.getTodos.cancel()
+      const previousTodo = apiUtils.todo.getTodos.getData({ sortWithComplete: isDone })
+      apiUtils.todo.getTodos.setData({ sortWithComplete: isDone }, (oldTodo) => {
+        return oldTodo?.filter(todo => todo.id !== id)
+      })
+      return { previousTodo }
+    },
     onSuccess: (res) => {
       toast.success(res.message)
     },
-    onError: (error) => {
+    onError: (error, _newTodo, context) => {
+      apiUtils.todo.getTodos.setData({ sortWithComplete: isDone }, context?.previousTodo)
       toast.error(error.message)
     },
     onSettled: async () => {

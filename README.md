@@ -29,8 +29,4 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 
 
 ## Demo
-
-### Development
-https://todolist-jth8pgl2u-danny101201.vercel.app 
-### Production
- https://todolist-7yrp8d1ie-danny101201.vercel.app
+https://todolist-phi-roan.vercel.app/

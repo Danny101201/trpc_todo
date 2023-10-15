@@ -8,14 +8,13 @@ export const todoRouter = createTRPCRouter({
   getTodos: publicProcedure
     .input(z.object({
       sortWithComplete: z.boolean()
-    }))
+    }).optional())
     .query(({ ctx, input }) => {
       const { db } = ctx
-      const { sortWithComplete } = input
       return db.todo.findMany({
-        orderBy: sortWithComplete
+        orderBy: input?.sortWithComplete
           ? { complete: 'desc' }
-          : {}
+          : { createdAt: 'desc' }
       }) ?? []
     }),
   createTodo: publicProcedure

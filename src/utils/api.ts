@@ -8,6 +8,7 @@ import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
+import { queryClient } from "~/components/Provider";
 
 import { type AppRouter } from "~/server/api/root";
 
@@ -27,7 +28,7 @@ export const api = createTRPCNext<AppRouter>({
        * @see https://trpc.io/docs/data-transformers
        */
       transformer: superjson,
-
+      queryClient,
       /**
        * Links used to determine request flow from client to server.
        *
